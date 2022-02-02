@@ -1,7 +1,15 @@
 import axios from "axios";
 import { EXHIBITION_PER_PAGE } from "../config/config";
+import { ExhibitionInterface } from "../types/exhibition";
 
-const getExhibtionsByOffset = async (offset: number) => {
+export interface ExhibitionsResult {
+  data: ExhibitionInterface[];
+  hasMore: boolean;
+}
+
+export const getExhibtionsByOffset = async (
+  offset: number
+): Promise<ExhibitionsResult> => {
   return axios
     .get("https://api.artic.edu/api/v1/exhibitions", {
       params: {
@@ -29,4 +37,19 @@ const getExhibtionsByOffset = async (offset: number) => {
     });
 };
 
-export { getExhibtionsByOffset };
+export const getExhibitionDetail = async (
+  id: string
+): Promise<ExhibitionInterface> => {
+  return axios
+    .get(`https://api.artic.edu/api/v1/exhibitions/${id}`)
+    .then((response) => {
+      if (response.data.data) {
+        return response.data.data;
+      }
+      return {};
+    })
+    .catch((err) => {
+      console.log(err);
+      throw err;
+    });
+};

@@ -18,18 +18,10 @@ const Home: NextPage<HomeProps> = ({ firstExhibtions }) => {
 
   const getMoreExhibitions = async () => {
     getExhibtionsByOffset(exhibitions.length)
-      .then(
-        ({
-          data,
-          hasMore,
-        }: {
-          data: ExhibitionInterface[];
-          hasMore: boolean;
-        }) => {
-          setExhibitions([...exhibitions, ...data]);
-          setHasMore(hasMore);
-        }
-      )
+      .then(({ data, hasMore }) => {
+        setExhibitions([...exhibitions, ...data]);
+        setHasMore(hasMore);
+      })
       .catch((err) => alert("Something went wrong!"));
   };
 
